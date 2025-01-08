@@ -1,4 +1,5 @@
 import { LOGIN_TYPE } from '@xylink/meetingkit';
+import { DEFAULT_LOGIN_TYPE } from './config';
 
 export const DEFAULT_LOCAL_USER = {
   phone: '',
@@ -12,6 +13,7 @@ export const DEFAULT_LOCAL_USER = {
   authCode: '',
   channelId: '',
   isTempUser: false,
+  loginType: DEFAULT_LOGIN_TYPE
 };
 
 /**

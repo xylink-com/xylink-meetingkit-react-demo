@@ -1,8 +1,8 @@
-# XYLINK WEBRTC SDK
+# XYLINK WEBRTC MEETINGKIT REACT SDK
 
-小鱼易连 WebRTC SDK demo 项目。
+小鱼易连 WebRTC MeetingKit React Demo 项目
 
-此项目使用到的技术栈：React+Typescript
+此项目使用到的技术栈：React+tailwind+Typescript
 
 ## 准备工作
 
@@ -11,6 +11,7 @@
 - clientId
 - clientSecret
 - extId
+- SERVER
 
 ## 运行
 
@@ -29,3 +30,4 @@ $ npm run dev
 ## 文档
 
 [小鱼易连 WebRTC SDK 文档](https://openapi.xylink.com/common/meeting/doc/version?platform=web)
+[小鱼易连 WebRTC MeetingKit 文档](https://openapi.xylink.com/common/meetingkit/doc/description?platform=web)

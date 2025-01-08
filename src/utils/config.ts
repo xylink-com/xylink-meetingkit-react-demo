@@ -5,7 +5,10 @@
  * @date  2020-01-17 12:04:01
  */
 
-export const THIRD: boolean = true;
+import { LOGIN_TYPE } from "@xylink/meetingkit";
+
+// 三方账号登录
+export const DEFAULT_LOGIN_TYPE = LOGIN_TYPE.EXTERNAL;
 
 // 服务地址，默认使用正式环境
 export const SERVER = 'cloudapi.xylink.com';

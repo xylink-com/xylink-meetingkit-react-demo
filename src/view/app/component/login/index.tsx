@@ -1,34 +1,36 @@
 /**
  * 加入会议
  */
+import { useState } from 'react';
 import { Row, Form, Checkbox } from 'antd';
 import { SettingOutlined } from '@ant-design/icons';
 import { IUser } from '../../../../type/index.type';
-import { THIRD, SERVER } from '../../../../utils/config';
 import { XYHeader } from '../header';
-import { LOGIN_TYPE, XYButton, XYCheckbox, XYInput } from '@xylink/meetingkit';
+import { LOGIN_TYPE, SettingConfigKey, XYButton, XYCheckbox, XYInput, XYMeetingSettingComp } from '@xylink/meetingkit';
 import { LOGIN_TYPE_MAP } from '../../../../utils/enum';
+import { DEFAULT_LOGIN_TYPE } from '../../../../utils/config';
 
 interface IProps {
   user: IUser;
-  loginType?: LOGIN_TYPE;
-  server?: string;
   onHandleSubmit: () => Promise<void>;
   onChangeInput: (value: string | boolean, key: string) => void;
-  onToggleSetting: () => void;
 }
 
 const Login = (props: IProps) => {
-  const {
-    server = SERVER,
-    loginType = THIRD ? LOGIN_TYPE.EXTERNAL : LOGIN_TYPE.XY,
-    user,
-    onChangeInput,
-    onHandleSubmit,
-    onToggleSetting,
-  } = props;
+  const { user, onChangeInput, onHandleSubmit } = props;
+  const { loginType = DEFAULT_LOGIN_TYPE } = user || {};
+  const { menu } = LOGIN_TYPE_MAP[loginType] || LOGIN_TYPE_MAP[LOGIN_TYPE.EXTERNAL];
+  const [settingVisible, setSettingVisible] = useState(false);
 
-  const { title, menu } = LOGIN_TYPE_MAP[loginType] || LOGIN_TYPE_MAP[LOGIN_TYPE.XY];
+  const onToggleSetting = () => {
+    setSettingVisible(!settingVisible);
+  };
+
+  const onChangeSetting = (data: { [key in SettingConfigKey]?: any }) => {
+    if (data.loginType) {
+      onChangeInput(data.loginType, 'loginType');
+    }
+  };
 
   return (
     <>
@@ -37,13 +39,7 @@ const Login = (props: IProps) => {
       <div className="w-full h-full pb-24 pt-24 overflow-auto">
         <div className="w-[340px] m-auto" style={{ width: '340px' }}>
           <div>
-            <div className="text-7xl text-xy_t3 text-center mb-10">
-              加入会议
-              <div className="text-7xs mt-1">
-                ({server} - {title})
-              </div>
-            </div>
-
+            <div className="text-7xl text-xy_t3 text-center mb-10">加入会议</div>
             <Row justify="center">
               <Form onFinish={onHandleSubmit} className="w-full" initialValues={user}>
                 {
@@ -52,7 +48,6 @@ const Login = (props: IProps) => {
                   menu.extUserId && (
                     <Form.Item name="extUserId" className="pb-3 mb-0">
                       <XYInput
-                        // type="extUserId"
                         placeholder="请输入第三方用户ID"
                         onChange={(e) => {
                           onChangeInput(e.target.value, 'extUserId');
@@ -65,7 +60,6 @@ const Login = (props: IProps) => {
                 {menu.authCode && (
                   <Form.Item name="authCode" className="pb-3 mb-0">
                     <XYInput
-                      // type="authCode"
                       placeholder="请输入授权码"
                       onChange={(e) => {
                         onChangeInput(e.target.value, 'authCode');
@@ -76,7 +70,6 @@ const Login = (props: IProps) => {
                 {menu.channelId && (
                   <Form.Item name="channelId" className="pb-3 mb-0">
                     <XYInput
-                      // type="channelId"
                       placeholder="请输入渠道id"
                       onChange={(e) => {
                         onChangeInput(e.target.value, 'channelId');
@@ -92,7 +85,6 @@ const Login = (props: IProps) => {
                       className="pb-3 mb-0"
                     >
                       <XYInput
-                        // type="phone"
                         placeholder="输入小鱼账号"
                         onChange={(e) => {
                           onChangeInput(e.target.value, 'phone');
@@ -215,16 +207,12 @@ const Login = (props: IProps) => {
         </div>
       </div>
 
-      <div className="fixed bottom-0  bg-[#393946] w-full p-2 text-center text-7xs text-xy_t11">
-        <a
-          className="hover:text-xy_t7"
-          rel="noopener noreferrer"
-          target="_blank"
-          href="https://openapi.xylink.com/common/meeting/doc/description?platform=web"
-        >
-          小鱼易连WebRTC SDK开发文档
-        </a>
-      </div>
+      <XYMeetingSettingComp
+        visible={settingVisible}
+        onVisibleChange={setSettingVisible}
+        onChange={onChangeSetting}
+        options={{ common: { loginType: true }, server: false }}
+      />
     </>
   );
 };
