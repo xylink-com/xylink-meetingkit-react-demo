@@ -23,15 +23,6 @@ function App() {
   const join = async () => {
     setMeetingState(MeetingState.Meeting);
 
-    client.current = await uiMeetingKit.createClient({
-      clientId: ACCOUNT.clientId,
-      clientSecret: ACCOUNT.clientSecret,
-      extId: ACCOUNT.extId,
-      server: SERVER,
-    });
-
-    uiMeetingKit.on(XYMeetingEventKey.DISCONNECTED, disconnected);
-
     const {
       extUserId = '',
       meetingName = '',
@@ -42,10 +33,15 @@ function App() {
     } = user;
     const displayName = meetingName || '测试用户';
 
-    await client.current.loginExternalAccount({
-      extUserId: extUserId,
-      displayName,
+    client.current = await uiMeetingKit.createClient({
+      clientId: ACCOUNT.clientId,
+      clientSecret: ACCOUNT.clientSecret,
+      extId: ACCOUNT.extId,
+      server: SERVER,
+      extUserId  // 三方账号id, 用于三方账号登录，如果使用其他登录方式，则无需传此值，可通过client调用其他登录方法
     });
+
+    uiMeetingKit.on(XYMeetingEventKey.DISCONNECTED, disconnected);
 
     await uiMeetingKit.makeCall({
       confNumber: meeting,
