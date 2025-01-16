@@ -1,4 +1,4 @@
-import { XYMeetingKitComp, uiMeetingKit, XYShow, XYMeetingEventKey } from '@xylink/meetingkit';
+import { XYMeetingKitComp, uiMeetingKit, XYShow, XYMeetingEventKey, LOGIN_TYPE, XYMessage } from '@xylink/meetingkit';
 import { XYRTCClient } from '@xylink/xy-rtc-sdk';
 import { MeetingState } from './index.type';
 import { useRef, useState } from 'react';
@@ -23,6 +23,27 @@ function App() {
   const join = async () => {
     setMeetingState(MeetingState.Meeting);
 
+    const { clientId, clientSecret, extId } = ACCOUNT;
+
+    client.current = await uiMeetingKit.createClient({
+      clientId,
+      clientSecret,
+      extId,
+      server: SERVER,
+    });
+
+    uiMeetingKit.on(XYMeetingEventKey.DISCONNECTED, disconnected);
+
+    /**
+     * 重要提示
+     * 重要提示
+     * 重要提示
+     * 第三方登录，请在config配置文件里面配置企业账户信息
+     * 重要提示
+     * 重要提示
+     * 重要提示
+     */
+    const { EXTERNAL, AUTH_CODE, XY, THIRD_XY, THIRD_TOKEN } = LOGIN_TYPE;
     const {
       extUserId = '',
       meetingName = '',
@@ -30,18 +51,74 @@ function App() {
       meetingPassword = '',
       muteAudio = false,
       muteVideo = false,
+      authCode = '',
+      isTempUser = false,
+      channelId = '',
+      loginType = LOGIN_TYPE.EXTERNAL,
     } = user;
     const displayName = meetingName || '测试用户';
+    const pwd = user.password || '';
+    let account = user.phone || '';
 
-    client.current = await uiMeetingKit.createClient({
-      clientId: ACCOUNT.clientId,
-      clientSecret: ACCOUNT.clientSecret,
-      extId: ACCOUNT.extId,
-      server: SERVER,
-      extUserId  // 三方账号id, 用于三方账号登录，如果使用其他登录方式，则无需传此值，可通过client调用其他登录方法
-    });
+    try {
+      switch (loginType) {
+        case EXTERNAL:
+          // 三方账号登录
+          await client.current.loginExternalAccount({
+            extId,
+            extUserId,
+            authCode,
+            displayName,
+            tempUser: isTempUser,
+          });
+          break;
+        case AUTH_CODE:
+          // 建行授权码登录
+          await client.current.loginWithAuthCode({
+            displayName,
+            extId,
+            extUserId,
+            oauthCode: authCode,
+            isTempUser,
+            channelId,
+          });
+          break;
+        case XY:
+          // 小鱼登录
+          await client.current.loginXYlinkAccount(account, pwd);
+          break;
+        case THIRD_XY:
+          // 三方账号统一认证登录-小鱼账号登录
+          const accountArr = account.split('-');
 
-    uiMeetingKit.on(XYMeetingEventKey.DISCONNECTED, disconnected);
+          const countryCode = accountArr.length > 1 ? accountArr[0] : '+86';
+          account = accountArr[accountArr.length - 1];
+
+          await client.current.loginXYAccount({
+            countryCode: countryCode,
+            account,
+            password: pwd,
+          });
+          break;
+        case THIRD_TOKEN:
+          // Token登录
+          await client.current.loginExtToken({
+            authCode,
+          });
+          break;
+      }
+    } catch (err: any) {
+      const { msg = '' } = err || {};
+
+      if (msg) {
+        XYMessage.info(msg);
+      }
+
+      console.warn('login error: ', err);
+
+      setMeetingState(MeetingState.Login);
+      return Promise.reject(err);
+    }
 
     await uiMeetingKit.makeCall({
       confNumber: meeting,
@@ -68,7 +145,7 @@ function App() {
       </XYShow>
 
       {/* 会中 */}
-      <div className='w-full h-full'>
+      <div className="w-full h-full">
         <XYMeetingKitComp visible={meetingState === MeetingState.Meeting} />
       </div>
     </div>
