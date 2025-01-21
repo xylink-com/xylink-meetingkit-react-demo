@@ -29,5 +29,5 @@ $ npm run dev
 
 ## 文档
 
-[小鱼易连 WebRTC SDK 文档](https://openapi.xylink.com/common/meeting/doc/version?platform=web)
-[小鱼易连 WebRTC MeetingKit 文档](https://openapi.xylink.com/common/meetingkit/doc/description?platform=web)
+- [小鱼易连 WebRTC SDK 文档](https://openapi.xylink.com/common/meeting/doc/version?platform=web)
+- [小鱼易连 WebRTC MeetingKit 文档](https://openapi.xylink.com/common/meetingkit/doc/description?platform=web)
