@@ -87,11 +87,11 @@ function App() {
           // 小鱼登录
           await client.current.loginXYlinkAccount(account, pwd);
           break;
-        case THIRD_XY:
+        case THIRD_XY: {
           // 三方账号统一认证登录-小鱼账号登录
           const accountArr = account.split('-');
-
           const countryCode = accountArr.length > 1 ? accountArr[0] : '+86';
+          
           account = accountArr[accountArr.length - 1];
 
           await client.current.loginXYAccount({
@@ -100,6 +100,7 @@ function App() {
             password: pwd,
           });
           break;
+        }
         case THIRD_TOKEN:
           // Token登录
           await client.current.loginExtToken({
