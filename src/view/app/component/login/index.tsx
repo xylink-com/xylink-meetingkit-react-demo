@@ -211,7 +211,7 @@ const Login = (props: IProps) => {
         visible={settingVisible}
         onVisibleChange={setSettingVisible}
         onChange={onChangeSetting}
-        options={{ common: { loginType: true }, server: false }}
+        options={{ common: { loginType: true }, server: true }}
       />
     </>
   );

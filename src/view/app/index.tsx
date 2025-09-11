@@ -25,6 +25,10 @@ function App() {
 
     const { clientId, clientSecret, extId } = ACCOUNT;
 
+    uiMeetingKit.setFeatureVisible({
+      enableIM: false,
+    });
+
     client.current = await uiMeetingKit.createClient({
       clientId,
       clientSecret,
