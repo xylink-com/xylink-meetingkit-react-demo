@@ -22,8 +22,10 @@ function App() {
 
   const join = async () => {
     setMeetingState(MeetingState.Meeting);
-
-    const { clientId, clientSecret, extId } = ACCOUNT;
+    const { server = SERVER, clientId: cid, clientSecret: cse, extId: eId, layoutMode } = uiMeetingKit.getSettingConfig();
+    const extId = eId || ACCOUNT.extId;
+    const clientId = cid || ACCOUNT.clientId;
+    const clientSecret = cse || ACCOUNT.clientSecret;
 
     uiMeetingKit.setFeatureVisible({
       enableIM: false,
@@ -33,7 +35,8 @@ function App() {
       clientId,
       clientSecret,
       extId,
-      server: SERVER,
+      server,
+      layout: layoutMode,
     });
 
     uiMeetingKit.on(XYMeetingEventKey.DISCONNECTED, disconnected);
@@ -95,7 +98,7 @@ function App() {
           // 三方账号统一认证登录-小鱼账号登录
           const accountArr = account.split('-');
           const countryCode = accountArr.length > 1 ? accountArr[0] : '+86';
-          
+
           account = accountArr[accountArr.length - 1];
 
           await client.current.loginXYAccount({

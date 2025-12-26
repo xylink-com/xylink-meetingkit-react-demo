@@ -909,14 +909,14 @@
     "@types/babel__core" "^7.20.5"
     react-refresh "^0.17.0"
 
-"@xylink/meetingkit@4.0.7":
-  version "4.0.7"
-  resolved "https://registry.npmmirror.com/@xylink/meetingkit/-/meetingkit-4.0.7.tgz#d3581e8719b06ac297ddfef062abf5f1594d4b76"
-  integrity sha512-YoadbPwYoWzPTjhyPV53jYemz4C+lUG8lXAWwS7PPD3YYOh8x86sIMGeHyX7qfxndSQdVBgQIIyCNkoefPPGaA==
+"@xylink/meetingkit@4.0.8":
+  version "4.0.8"
+  resolved "https://fe-private-npm.xylink.com/@xylink%2fmeetingkit/-/meetingkit-4.0.8.tgz#f8e49f22da098c09a64ad634c19d2560b5bd45db"
+  integrity sha512-2dTb3VqQI2ZoXRt4E62aCZ8StSgFn66OPQ+8NBWrNfIs9rCC+CjNsdFTuF+kvWnu7eITyQbb5SBltdz/F/R7aQ==
   dependencies:
     "@use-gesture/react" "^10.2.24"
-    "@xylink/xy-rtc-sdk" "^4.0.7"
-    "@xylink/xy-toolkit" "^1.0.0"
+    "@xylink/xy-rtc-sdk" "^4.0.8"
+    "@xylink/xy-toolkit" "^1.0.1"
     "@xylink/xy-virtual-background-plugin" "^1.0.1"
     "@xylink/xy-whiteboard" "^1.0.2"
     antd "^5.20.0"
@@ -928,15 +928,15 @@
     tinycolor2 "^1.6.0"
     zustand "^4.5.4"
 
-"@xylink/xy-rtc-sdk@^4.0.7":
-  version "4.0.7"
-  resolved "https://registry.npmmirror.com/@xylink/xy-rtc-sdk/-/xy-rtc-sdk-4.0.7.tgz#50ef79a98330836ac5ea8bf0c8ec3db30b245fcd"
-  integrity sha512-SEyE/wuMuXUzA4Ofnz0mB9JJDnWgYddxrwOddVi3hosPL2vZKjS4SND49zZG9tJsCvuP9HzRFhUinrHZDccbAw==
+"@xylink/xy-rtc-sdk@4.0.8", "@xylink/xy-rtc-sdk@^4.0.8":
+  version "4.0.8"
+  resolved "https://fe-private-npm.xylink.com/@xylink%2fxy-rtc-sdk/-/xy-rtc-sdk-4.0.8.tgz#0b4603de37f53183ade6bfdcfd983bf9ee29b99c"
+  integrity sha512-/cjjZ00rEJYUCkHI+7A3Y8HhyO4LJhyTieoNSbKris4ITRw8Pj0FWE59bMzhopjx4/LJf1HC/Fshn43/6mQf8Q==
 
-"@xylink/xy-toolkit@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.npmmirror.com/@xylink/xy-toolkit/-/xy-toolkit-1.0.0.tgz#239f016983e8d2ae179996ad4926e3c0387752ed"
-  integrity sha512-1kchN7My1yoOm49t31u5tfF+HOvhXtMV4kJ72tRWLGaqHgVKMnaJZPu3fiPsaf2FLVlJY6/3CTFDAaMS4k2OXw==
+"@xylink/xy-toolkit@^1.0.1":
+  version "1.0.1"
+  resolved "https://fe-private-npm.xylink.com/@xylink%2fxy-toolkit/-/xy-toolkit-1.0.1.tgz#b24c8f52e5eaf315452156d1a54fc655e6c519ba"
+  integrity sha512-qgnqDSTRI0tF4MmffvQKFb9nIqC7sofgx+K8TDs57HM8S0V9ElFBSqhPY86hpYWnBMdTFk7GAB79ijiYbtFiVA==
   dependencies:
     core-js "3"
 
@@ -2559,16 +2559,8 @@ string-convert@^0.2.0:
   resolved "https://registry.npmmirror.com/string-convert/-/string-convert-0.2.1.tgz#6982cc3049fbb4cd85f8b24568b9d9bf39eeff97"
   integrity sha512-u/1tdPl4yQnPBjnVrmdLo9gtuLvELKsAoRapekWggdiQNvvvum+jYF329d84NAa660KQw7pB2n36KrIKVoXa3A==
 
-"string-width-cjs@npm:string-width@^4.2.0":
-  version "4.2.3"
-  resolved "https://registry.npmmirror.com/string-width/-/string-width-4.2.3.tgz#269c7117d27b05ad2e536830a8ec895ef9c6d010"
-  integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
-  dependencies:
-    emoji-regex "^8.0.0"
-    is-fullwidth-code-point "^3.0.0"
-    strip-ansi "^6.0.1"
-
-string-width@^4.1.0:
+"string-width-cjs@npm:string-width@^4.2.0", string-width@^4.1.0:
+  name string-width-cjs
   version "4.2.3"
   resolved "https://registry.npmmirror.com/string-width/-/string-width-4.2.3.tgz#269c7117d27b05ad2e536830a8ec895ef9c6d010"
   integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
@@ -2586,14 +2578,8 @@ string-width@^5.0.1, string-width@^5.1.2:
     emoji-regex "^9.2.2"
     strip-ansi "^7.0.1"
 
-"strip-ansi-cjs@npm:strip-ansi@^6.0.1":
-  version "6.0.1"
-  resolved "https://registry.npmmirror.com/strip-ansi/-/strip-ansi-6.0.1.tgz#9e26c63d30f53443e9489495b2105d37b67a85d9"
-  integrity sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==
-  dependencies:
-    ansi-regex "^5.0.1"
-
-strip-ansi@^6.0.0, strip-ansi@^6.0.1:
+"strip-ansi-cjs@npm:strip-ansi@^6.0.1", strip-ansi@^6.0.0, strip-ansi@^6.0.1:
+  name strip-ansi-cjs
   version "6.0.1"
   resolved "https://registry.npmmirror.com/strip-ansi/-/strip-ansi-6.0.1.tgz#9e26c63d30f53443e9489495b2105d37b67a85d9"
   integrity sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==
