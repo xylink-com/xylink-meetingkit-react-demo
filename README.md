@@ -6,25 +6,27 @@
 
 ## 准备工作
 
-1. 注意在`src/utils/config.ts`中配置第三方登录所需的
+1. 在 `src/utils/config.ts` 中配置默认值：
 
 - clientId
 - clientSecret
 - extId
 - SERVER
 
+2. 更新配置可以在首页 -> 设置 -> 服务器 中设置；
+
 ## 运行
 
 ### 安装依赖
 
 ```bash
-$ npm install
+npm install
 ```
 
 ### 运行
 
 ```bash
-$ npm run dev
+npm run dev
 ```
 
 ## 文档

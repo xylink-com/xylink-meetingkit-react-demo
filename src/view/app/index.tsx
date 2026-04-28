@@ -1,7 +1,7 @@
 import { XYMeetingKitComp, uiMeetingKit, XYShow, XYMeetingEventKey, LOGIN_TYPE, XYMessage } from '@xylink/meetingkit';
 import { XYRTCClient } from '@xylink/xy-rtc-sdk';
 import { MeetingState } from './index.type';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ACCOUNT, SERVER } from '../../utils/config';
 import { IUser } from '../../type/index.type';
 import store from '../../utils/store';
@@ -20,24 +20,25 @@ function App() {
     setUser(users);
   };
 
+  useEffect(() => {
+    (async () => {
+      // 更新config文件中的默认配置
+      client.current = await uiMeetingKit.createClient({
+        clientId: ACCOUNT.clientId,
+        clientSecret: ACCOUNT.clientSecret,
+        extId: ACCOUNT.extId,
+        server: SERVER,
+      });
+    })();
+  }, []);
+
   const join = async () => {
     setMeetingState(MeetingState.Meeting);
-    const { server = SERVER, clientId: cid, clientSecret: cse, extId: eId, layoutMode } = uiMeetingKit.getSettingConfig();
-    const extId = eId || ACCOUNT.extId;
-    const clientId = cid || ACCOUNT.clientId;
-    const clientSecret = cse || ACCOUNT.clientSecret;
 
-    uiMeetingKit.setFeatureVisible({
-      enableIM: false,
-    });
+    uiMeetingKit.setFeatureVisible({ enableIM: false });
 
-    client.current = await uiMeetingKit.createClient({
-      clientId,
-      clientSecret,
-      extId,
-      server,
-      layout: layoutMode,
-    });
+    const { extId } = uiMeetingKit.getSettingConfig();
+    const enterpriseId = extId || ACCOUNT.extId;
 
     uiMeetingKit.on(XYMeetingEventKey.DISCONNECTED, disconnected);
 
@@ -71,8 +72,8 @@ function App() {
       switch (loginType) {
         case EXTERNAL:
           // 三方账号登录
-          await client.current.loginExternalAccount({
-            extId,
+          await client.current?.loginExternalAccount({
+            extId: enterpriseId,
             extUserId,
             authCode,
             displayName,
@@ -81,9 +82,9 @@ function App() {
           break;
         case AUTH_CODE:
           // 建行授权码登录
-          await client.current.loginWithAuthCode({
+          await client.current?.loginWithAuthCode({
             displayName,
-            extId,
+            extId: enterpriseId,
             extUserId,
             oauthCode: authCode,
             isTempUser,
@@ -92,7 +93,7 @@ function App() {
           break;
         case XY:
           // 小鱼登录
-          await client.current.loginXYlinkAccount(account, pwd);
+          await client.current?.loginXYlinkAccount(account, pwd);
           break;
         case THIRD_XY: {
           // 三方账号统一认证登录-小鱼账号登录
@@ -101,7 +102,7 @@ function App() {
 
           account = accountArr[accountArr.length - 1];
 
-          await client.current.loginXYAccount({
+          await client.current?.loginXYAccount({
             countryCode: countryCode,
             account,
             password: pwd,
@@ -110,7 +111,7 @@ function App() {
         }
         case THIRD_TOKEN:
           // Token登录
-          await client.current.loginExtToken({
+          await client.current?.loginExtToken({
             authCode,
           });
           break;
