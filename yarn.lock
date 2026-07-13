@@ -910,16 +910,16 @@
     "@types/babel__core" "^7.20.5"
     react-refresh "^0.17.0"
 
-"@xylink/meetingkit@4.0.8":
-  version "4.0.8"
-  resolved "https://registry.yarnpkg.com/@xylink/meetingkit/-/meetingkit-4.0.8.tgz#f8e49f22da098c09a64ad634c19d2560b5bd45db"
-  integrity sha512-2dTb3VqQI2ZoXRt4E62aCZ8StSgFn66OPQ+8NBWrNfIs9rCC+CjNsdFTuF+kvWnu7eITyQbb5SBltdz/F/R7aQ==
+"@xylink/meetingkit@4.0.10":
+  version "4.0.10"
+  resolved "https://registry.npmjs.org/@xylink/meetingkit/-/meetingkit-4.0.10.tgz#cc9a736cfb6b5e35ab1567add6b711b904a511b6"
+  integrity sha512-ASEjADAH3O1S2UWIryjPO+u67epyujcteLWzq3LhdSRojmeTqL3KrXeu65rFCW/c3ONyMQ5PW0XBvBrW7juDEg==
   dependencies:
     "@use-gesture/react" "^10.2.24"
-    "@xylink/xy-rtc-sdk" "^4.0.8"
-    "@xylink/xy-toolkit" "^1.0.1"
+    "@xylink/xy-rtc-sdk" "^4.0.10"
+    "@xylink/xy-toolkit" "^1.0.2"
     "@xylink/xy-virtual-background-plugin" "^1.0.1"
-    "@xylink/xy-whiteboard" "^1.0.2"
+    "@xylink/xy-whiteboard" "^1.0.3"
     antd "^5.20.0"
     clsx "^2.1.1"
     html2canvas "^1.4.1"
@@ -929,20 +929,15 @@
     tinycolor2 "^1.6.0"
     zustand "^4.5.4"
 
-"@xylink/xy-rtc-sdk@4.0.8":
-  version "4.0.8"
-  resolved "https://registry.yarnpkg.com/@xylink/xy-rtc-sdk/-/xy-rtc-sdk-4.0.8.tgz#0b4603de37f53183ade6bfdcfd983bf9ee29b99c"
-  integrity sha512-/cjjZ00rEJYUCkHI+7A3Y8HhyO4LJhyTieoNSbKris4ITRw8Pj0FWE59bMzhopjx4/LJf1HC/Fshn43/6mQf8Q==
+"@xylink/xy-rtc-sdk@4.0.10", "@xylink/xy-rtc-sdk@^4.0.10":
+  version "4.0.10"
+  resolved "https://registry.npmjs.org/@xylink/xy-rtc-sdk/-/xy-rtc-sdk-4.0.10.tgz#2e1611276fb8e11aeb3a09b16a0cb4eb90455e11"
+  integrity sha512-cM/eQD17KDS3vt1Cr+FlNXSTJ50+l2P2BjwLbGzPlQoyeNDDcFfFQAaKHI2xuWhdJKcu9Qb7tD44aKLXSDujIQ==
 
-"@xylink/xy-rtc-sdk@^4.0.8":
-  version "4.0.9"
-  resolved "https://registry.yarnpkg.com/@xylink/xy-rtc-sdk/-/xy-rtc-sdk-4.0.9.tgz#17b5cc5efca0f60512c2d4153f7e0de8b766d8be"
-  integrity sha512-fmyGOdrh1k8Ur7OBskiXGCJ2Vi6/lkKJUOrVY/XFR8EBMTsrjGT/lpAaJdZFcgq0QU1vC2yjFc8DTN021YMwQQ==
-
-"@xylink/xy-toolkit@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@xylink/xy-toolkit/-/xy-toolkit-1.0.1.tgz#b24c8f52e5eaf315452156d1a54fc655e6c519ba"
-  integrity sha512-qgnqDSTRI0tF4MmffvQKFb9nIqC7sofgx+K8TDs57HM8S0V9ElFBSqhPY86hpYWnBMdTFk7GAB79ijiYbtFiVA==
+"@xylink/xy-toolkit@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.npmjs.org/@xylink/xy-toolkit/-/xy-toolkit-1.0.2.tgz#b420893058ca968d7a21434e1e044c0576ddd1ba"
+  integrity sha512-VeG08G1gXkdQ8f3ceSEMnAuAVgzWQWuSxjt6sROgVs/GP+IAxO8+TpbddLtgo+TCvbQDXFuDPuBn3y7gh23mJg==
   dependencies:
     core-js "3"
 
@@ -951,10 +946,10 @@
   resolved "https://registry.yarnpkg.com/@xylink/xy-virtual-background-plugin/-/xy-virtual-background-plugin-1.0.1.tgz#776ba085b231d295aa57cb2459e3c03195c18d51"
   integrity sha512-UCtCq3m23caZSHX7cuaSoUCNmeutDEHR6I1qHNWJKx3kXETE1WyYQcuxA/dckZl19kPsuCdMjX1/N2BK/UckRQ==
 
-"@xylink/xy-whiteboard@^1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@xylink/xy-whiteboard/-/xy-whiteboard-1.0.2.tgz#cca2864b3dda0411d910f70c63fab90b9a9e13d7"
-  integrity sha512-UCOFkKo+6Sl1JKo2QcM1od3k9zMjV5lDee4qpJMxE7r5E5pgQzYI+BjfnNSQLVM+gRDtoIdR86ZcqhxC3dlUeA==
+"@xylink/xy-whiteboard@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.npmjs.org/@xylink/xy-whiteboard/-/xy-whiteboard-1.0.3.tgz#e06dd6426edea3e5fb7b4072c3dc4573cb86caf5"
+  integrity sha512-Vki05jzHh1eEooEJEEGz8WsXHv+Rt7QCj67N3dRxZAQ9PYXnU1RB/viU54VrYDEJG9fXj67OXKddaezxBSmrrQ==
 
 acorn-jsx@^5.3.2:
   version "5.3.2"

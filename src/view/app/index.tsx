@@ -3,6 +3,12 @@ import { XYRTCClient } from '@xylink/xy-rtc-sdk';
 import { MeetingState } from './index.type';
 import { useRef, useState } from 'react';
 import { ACCOUNT, SERVER } from '../../utils/config';
+import {
+  applyMeetingKitCustomization,
+  footerCustomButtons,
+  getMeetingControlUrl,
+} from '../../utils/customization';
+// 定制见 src/utils/customization.ts；API 见 docs/customization.md
 import { IUser } from '../../type/index.type';
 import store from '../../utils/store';
 import { DEFAULT_LOCAL_USER } from '../../utils/enum';
@@ -27,17 +33,17 @@ function App() {
     const clientId = cid || ACCOUNT.clientId;
     const clientSecret = cse || ACCOUNT.clientSecret;
 
-    uiMeetingKit.setFeatureVisible({
-      enableIM: false,
-    });
+    applyMeetingKitCustomization();
 
-    client.current = await uiMeetingKit.createClient({
+    const rtcClient = await uiMeetingKit.createClient({
       clientId,
       clientSecret,
       extId,
       server,
       layout: layoutMode,
+      meetingControlUrl: getMeetingControlUrl(),
     });
+    client.current = rtcClient;
 
     uiMeetingKit.on(XYMeetingEventKey.DISCONNECTED, disconnected);
 
@@ -71,7 +77,7 @@ function App() {
       switch (loginType) {
         case EXTERNAL:
           // 三方账号登录
-          await client.current.loginExternalAccount({
+          await rtcClient.loginExternalAccount({
             extId,
             extUserId,
             authCode,
@@ -81,7 +87,7 @@ function App() {
           break;
         case AUTH_CODE:
           // 建行授权码登录
-          await client.current.loginWithAuthCode({
+          await rtcClient.loginWithAuthCode({
             displayName,
             extId,
             extUserId,
@@ -92,7 +98,7 @@ function App() {
           break;
         case XY:
           // 小鱼登录
-          await client.current.loginXYlinkAccount(account, pwd);
+          await rtcClient.loginXYlinkAccount(account, pwd);
           break;
         case THIRD_XY: {
           // 三方账号统一认证登录-小鱼账号登录
@@ -101,7 +107,7 @@ function App() {
 
           account = accountArr[accountArr.length - 1];
 
-          await client.current.loginXYAccount({
+          await rtcClient.loginXYAccount({
             countryCode: countryCode,
             account,
             password: pwd,
@@ -110,7 +116,7 @@ function App() {
         }
         case THIRD_TOKEN:
           // Token登录
-          await client.current.loginExtToken({
+          await rtcClient.loginExtToken({
             authCode,
           });
           break;
@@ -127,6 +133,9 @@ function App() {
       setMeetingState(MeetingState.Login);
       return Promise.reject(err);
     }
+
+    // 用户手势触发入会时，makeCall 前解锁浏览器远端音频播放
+    await rtcClient.playAudio();
 
     await uiMeetingKit.makeCall({
       confNumber: meeting,
@@ -154,7 +163,10 @@ function App() {
 
       {/* 会中 */}
       <div className="w-full h-full">
-        <XYMeetingKitComp visible={meetingState === MeetingState.Meeting} />
+        <XYMeetingKitComp
+          visible={meetingState === MeetingState.Meeting}
+          footerCustomButtons={footerCustomButtons}
+        />
       </div>
     </div>
   );

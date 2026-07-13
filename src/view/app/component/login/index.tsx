@@ -2,13 +2,13 @@
  * 加入会议
  */
 import { useState } from 'react';
-import { Row, Form, Checkbox } from 'antd';
+import { Row, Form } from 'antd';
 import { SettingOutlined } from '@ant-design/icons';
 import { IUser } from '../../../../type/index.type';
-import { XYHeader } from '../header';
 import { LOGIN_TYPE, SettingConfigKey, XYButton, XYCheckbox, XYInput, XYMeetingSettingComp } from '@xylink/meetingkit';
 import { LOGIN_TYPE_MAP } from '../../../../utils/enum';
 import { DEFAULT_LOGIN_TYPE } from '../../../../utils/config';
+
 
 interface IProps {
   user: IUser;
@@ -34,9 +34,7 @@ const Login = (props: IProps) => {
 
   return (
     <>
-      <XYHeader></XYHeader>
-
-      <div className="w-full h-full pb-24 pt-24 overflow-auto">
+      <div className="w-full h-full pb-24 pt-16 overflow-auto">
         <div className="w-[340px] m-auto" style={{ width: '340px' }}>
           <div>
             <div className="text-7xl text-xy_t3 text-center mb-10">加入会议</div>
@@ -158,14 +156,14 @@ const Login = (props: IProps) => {
 
                 {menu.tempUser && (
                   <Form.Item name="isTempUser" className="pb-3 mb-0">
-                    <Checkbox
+                    <XYCheckbox
                       checked={user.isTempUser}
                       onChange={(e) => {
                         onChangeInput(e.target.checked, 'isTempUser');
                       }}
                     >
                       临时用户
-                    </Checkbox>
+                    </XYCheckbox>
                   </Form.Item>
                 )}
 
