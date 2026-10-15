@@ -910,13 +910,13 @@
     "@types/babel__core" "^7.20.5"
     react-refresh "^0.17.0"
 
-"@xylink/meetingkit@4.0.10":
-  version "4.0.10"
-  resolved "https://registry.npmjs.org/@xylink/meetingkit/-/meetingkit-4.0.10.tgz#cc9a736cfb6b5e35ab1567add6b711b904a511b6"
-  integrity sha512-ASEjADAH3O1S2UWIryjPO+u67epyujcteLWzq3LhdSRojmeTqL3KrXeu65rFCW/c3ONyMQ5PW0XBvBrW7juDEg==
+"@xylink/meetingkit@4.0.11":
+  version "4.0.11"
+  resolved "https://registry.npmjs.org/@xylink/meetingkit/-/meetingkit-4.0.11.tgz#1eb5145605982686778c0c4e6fe8efe44f85122d"
+  integrity sha512-7Sc1d1d8QW+6Is2/8mbc9mYSC7fx+UxyJvVxUjxOW3ncj6k62E/oOs3sEXfT4xFArgjfJLEtbqZP6n2MjvAlsg==
   dependencies:
     "@use-gesture/react" "^10.2.24"
-    "@xylink/xy-rtc-sdk" "^4.0.10"
+    "@xylink/xy-rtc-sdk" "^4.0.11"
     "@xylink/xy-toolkit" "^1.0.2"
     "@xylink/xy-virtual-background-plugin" "^1.0.1"
     "@xylink/xy-whiteboard" "^1.0.3"
@@ -929,10 +929,10 @@
     tinycolor2 "^1.6.0"
     zustand "^4.5.4"
 
-"@xylink/xy-rtc-sdk@4.0.10", "@xylink/xy-rtc-sdk@^4.0.10":
-  version "4.0.10"
-  resolved "https://registry.npmjs.org/@xylink/xy-rtc-sdk/-/xy-rtc-sdk-4.0.10.tgz#2e1611276fb8e11aeb3a09b16a0cb4eb90455e11"
-  integrity sha512-cM/eQD17KDS3vt1Cr+FlNXSTJ50+l2P2BjwLbGzPlQoyeNDDcFfFQAaKHI2xuWhdJKcu9Qb7tD44aKLXSDujIQ==
+"@xylink/xy-rtc-sdk@4.0.11", "@xylink/xy-rtc-sdk@^4.0.11":
+  version "4.0.11"
+  resolved "https://registry.npmjs.org/@xylink/xy-rtc-sdk/-/xy-rtc-sdk-4.0.11.tgz#2a7bb0b80cd1d5d7b1647a1fa9cb927c8bf34098"
+  integrity sha512-LKB7+QzhXnIUmU7G93/oRJrok37Y4LlywEvSSXCudH5wciUWCXd41PuItbyv2AFmp7IY5wMh1pd6YgHOCq3Msg==
 
 "@xylink/xy-toolkit@^1.0.2":
   version "1.0.2"

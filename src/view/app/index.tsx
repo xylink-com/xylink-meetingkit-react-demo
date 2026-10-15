@@ -1,7 +1,6 @@
 import { XYMeetingKitComp, uiMeetingKit, XYShow, XYMeetingEventKey, LOGIN_TYPE, XYMessage } from '@xylink/meetingkit';
-import { XYRTCClient } from '@xylink/xy-rtc-sdk';
 import { MeetingState } from './index.type';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ACCOUNT, SERVER } from '../../utils/config';
 import {
   applyMeetingKitCustomization,
@@ -17,7 +16,22 @@ import Login from './component/login';
 function App() {
   const [meetingState, setMeetingState] = useState(MeetingState.Login);
   const [user, setUser] = useState<IUser>(store.get('xy-user') || DEFAULT_LOCAL_USER);
-  const client = useRef<XYRTCClient | null>(null);
+  const joinAttempt = useRef(0);
+  const joinPending = useRef(false);
+  const [joining, setJoining] = useState(false);
+
+  useEffect(() => {
+    const disconnected = () => {
+      // 使仍在初始化或登录中的旧流程失效，禁止取消后继续呼叫。
+      joinAttempt.current += 1;
+      setMeetingState(MeetingState.Login);
+    };
+    uiMeetingKit.on(XYMeetingEventKey.DISCONNECTED, disconnected);
+    return () => {
+      joinAttempt.current += 1;
+      uiMeetingKit.off(XYMeetingEventKey.DISCONNECTED, disconnected);
+    };
+  }, []);
 
   const onChangeUser = (value: any, type: string) => {
     const users = { ...user, [type]: value };
@@ -27,53 +41,56 @@ function App() {
   };
 
   const join = async () => {
+    if (joinPending.current) return;
+    joinPending.current = true;
+    setJoining(true);
+    const attempt = ++joinAttempt.current;
+    const isCurrentAttempt = () => attempt === joinAttempt.current;
     setMeetingState(MeetingState.Meeting);
-    const { server = SERVER, clientId: cid, clientSecret: cse, extId: eId, layoutMode } = uiMeetingKit.getSettingConfig();
-    const extId = eId || ACCOUNT.extId;
-    const clientId = cid || ACCOUNT.clientId;
-    const clientSecret = cse || ACCOUNT.clientSecret;
-
-    applyMeetingKitCustomization();
-
-    const rtcClient = await uiMeetingKit.createClient({
-      clientId,
-      clientSecret,
-      extId,
-      server,
-      layout: layoutMode,
-      meetingControlUrl: getMeetingControlUrl(),
-    });
-    client.current = rtcClient;
-
-    uiMeetingKit.on(XYMeetingEventKey.DISCONNECTED, disconnected);
-
-    /**
-     * 重要提示
-     * 重要提示
-     * 重要提示
-     * 第三方登录，请在config配置文件里面配置企业账户信息
-     * 重要提示
-     * 重要提示
-     * 重要提示
-     */
-    const { EXTERNAL, AUTH_CODE, XY, THIRD_XY, THIRD_TOKEN } = LOGIN_TYPE;
-    const {
-      extUserId = '',
-      meetingName = '',
-      meeting = '',
-      meetingPassword = '',
-      muteAudio = false,
-      muteVideo = false,
-      authCode = '',
-      isTempUser = false,
-      channelId = '',
-      loginType = LOGIN_TYPE.EXTERNAL,
-    } = user;
-    const displayName = meetingName || '测试用户';
-    const pwd = user.password || '';
-    let account = user.phone || '';
-
     try {
+      const { server = SERVER, clientId: cid, clientSecret: cse, extId: eId, layoutMode } = uiMeetingKit.getSettingConfig();
+      const extId = eId || ACCOUNT.extId;
+      const clientId = cid || ACCOUNT.clientId;
+      const clientSecret = cse || ACCOUNT.clientSecret;
+
+      applyMeetingKitCustomization();
+
+      const rtcClient = await uiMeetingKit.createClient({
+        clientId,
+        clientSecret,
+        extId,
+        server,
+        layout: layoutMode,
+        meetingControlUrl: getMeetingControlUrl(),
+      });
+      if (!isCurrentAttempt()) return;
+
+      /**
+       * 重要提示
+       * 重要提示
+       * 重要提示
+       * 第三方登录，请在config配置文件里面配置企业账户信息
+       * 重要提示
+       * 重要提示
+       * 重要提示
+       */
+      const { EXTERNAL, AUTH_CODE, XY, THIRD_XY, THIRD_TOKEN } = LOGIN_TYPE;
+      const {
+        extUserId = '',
+        meetingName = '',
+        meeting = '',
+        meetingPassword = '',
+        muteAudio = false,
+        muteVideo = false,
+        authCode = '',
+        isTempUser = false,
+        channelId = '',
+        loginType = LOGIN_TYPE.EXTERNAL,
+      } = user;
+      const displayName = meetingName || '测试用户';
+      const pwd = user.password || '';
+      let account = user.phone || '';
+
       switch (loginType) {
         case EXTERNAL:
           // 三方账号登录
@@ -121,35 +138,31 @@ function App() {
           });
           break;
       }
-    } catch (err: any) {
-      const { msg = '' } = err || {};
+      if (!isCurrentAttempt()) return;
+      // makeCall 前解锁浏览器远端音频播放。
+      await rtcClient.playAudio();
+      if (!isCurrentAttempt()) return;
 
-      if (msg) {
-        XYMessage.info(msg);
-      }
-
-      console.warn('login error: ', err);
-
+      await uiMeetingKit.makeCall({
+        confNumber: meeting,
+        password: meetingPassword,
+        displayName,
+        muteAudio,
+        muteVideo,
+      });
+    } catch (err: unknown) {
+      if (!isCurrentAttempt()) return;
+      const message = typeof err === 'string'
+        ? err
+        : (err as { msg?: string; message?: string } | null)?.msg
+          || (err as Error | null)?.message
+          || '初始化或加入会议失败，请检查配置后重试';
+      XYMessage.info(message);
       setMeetingState(MeetingState.Login);
-      return Promise.reject(err);
+    } finally {
+      joinPending.current = false;
+      setJoining(false);
     }
-
-    // 用户手势触发入会时，makeCall 前解锁浏览器远端音频播放
-    await rtcClient.playAudio();
-
-    await uiMeetingKit.makeCall({
-      confNumber: meeting,
-      password: meetingPassword,
-      displayName,
-      muteAudio,
-      muteVideo,
-    });
-  };
-
-  const disconnected = async (data: any) => {
-    console.log('disconnected:::::', data);
-    uiMeetingKit.removeAllListener();
-    setMeetingState(MeetingState.Login);
   };
 
   return (
@@ -157,7 +170,7 @@ function App() {
       {/* 加入会议 */}
       <XYShow is={meetingState === MeetingState.Login}>
         <div className="absolute left-0 top-0 w-full h-full z-10">
-          <Login user={user} onChangeInput={onChangeUser} onHandleSubmit={join}></Login>
+          <Login user={user} joining={joining} onChangeInput={onChangeUser} onHandleSubmit={join}></Login>
         </div>
       </XYShow>
 

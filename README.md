@@ -4,7 +4,7 @@
 
 技术栈：React + TypeScript + Vite + Tailwind
 
-当前依赖版本：`@xylink/meetingkit@4.0.10`、`@xylink/xy-rtc-sdk@4.0.10`
+当前依赖版本：外网 npm 发布的 `@xylink/meetingkit@4.0.11`、`@xylink/xy-rtc-sdk@4.0.11`，来源及校验值通过 `yarn.lock` 锁定。
 
 ## 准备工作
 
@@ -22,11 +22,13 @@ Demo 默认提供一组测试账号，仅限联调，正式环境请替换为自
 推荐使用 **yarn**，从外网 npm 安装：
 
 ```bash
-yarn install
+yarn install --frozen-lockfile --registry https://registry.npmjs.org
 yarn dev
 ```
 
 浏览器打开终端提示的本地地址（默认 `http://localhost:5173/`）。
+
+已导入 MeetingKit 完整的 `css/style.css`，Tailwind 仅扫描 Demo 源码，避免扫描包源码生成的相对图片路径覆盖包内样式。
 
 ## 界面定制
 

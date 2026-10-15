@@ -12,12 +12,13 @@ import { DEFAULT_LOGIN_TYPE } from '../../../../utils/config';
 
 interface IProps {
   user: IUser;
+  joining: boolean;
   onHandleSubmit: () => Promise<void>;
   onChangeInput: (value: string | boolean, key: string) => void;
 }
 
 const Login = (props: IProps) => {
-  const { user, onChangeInput, onHandleSubmit } = props;
+  const { user, joining, onChangeInput, onHandleSubmit } = props;
   const { loginType = DEFAULT_LOGIN_TYPE } = user || {};
   const { menu } = LOGIN_TYPE_MAP[loginType] || LOGIN_TYPE_MAP[LOGIN_TYPE.EXTERNAL];
   const [settingVisible, setSettingVisible] = useState(false);
@@ -167,7 +168,7 @@ const Login = (props: IProps) => {
                   </Form.Item>
                 )}
 
-                <XYButton type="primary" size="large" htmlType="submit" className="w-full mb-5">
+                <XYButton type="primary" size="large" htmlType="submit" disabled={joining} className="w-full mb-5">
                   加入会议
                 </XYButton>
 
